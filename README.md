@@ -40,8 +40,7 @@ Aplikasi ini memisahkan hak akses secara tegas antara pengelola (Admin/Penulis) 
 
 1. **Clone Repository**
    ```bash
-   GitHub https://github.com/Fawaz/infotekno-laravel.git
-   cd my-blog-app
+   GitHub https:https://github.com/Fawaz2410/my-blog-app
 
 
 2. **Install Dependencies**
@@ -101,3 +100,18 @@ Buka `http://localhost:8000` di browser.
 ## Versi Framework
 
 * Laravel Framework 12
+
+## Kontak
+
+- Fawaz Muhammad Sabiq
+- NIM: C2383207006
+- Email: [fawazmsabiq@gmail.com](mailto:fawazmsabiq@gmail.com)
+- GitHub: [github.com/Fawaz2410](https://github.com/Fawaz2410)
+
+## Lisensi
+
+Project untuk Ujian Akhir Semester - Pemrograman Internet
+Fakultas Keguruan dan Ilmu Pendidikan
+Universitas Muhammadiyah Tasikmalaya
+
+Copyright 2026 Fawaz Muhammad Sabiq
