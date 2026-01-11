@@ -40,7 +40,7 @@ Aplikasi ini memisahkan hak akses secara tegas antara pengelola (Admin/Penulis) 
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/Fawaz/infotekno-laravel.git
+   GitHub https://github.com/Fawaz/infotekno-laravel.git
    cd my-blog-app
 
 
