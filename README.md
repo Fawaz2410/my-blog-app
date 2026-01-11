@@ -1,27 +1,41 @@
 # Sistem Informasi Blog Mahasiswa
 
-**Nama    : Fawaz Muhammad Sabiq**
-**NIM     : C2383207006**
-**Kelas   : PTI5A**
+- **Nama** : Fawaz Muhammad Sabiq
+- **NIM** : C2383207006
+- **Kelas** : PTI5A
+- **Matakuliah**: Pemrograman Internet
 
-Aplikasi web sederhana untuk manajemen artikel (blog) yang dibangun menggunakan Laravel 12. Aplikasi ini memiliki fitur Multi-Role (Super Admin & Penulis) serta editor teks kaya (Rich Text Editor).
+## Deskripsi Aplikasi
+
+**Sistem Informasi Blog Mahasiswa** adalah sebuah platform Content Management System (CMS) modern yang dirancang untuk memfasilitasi publikasi artikel digital secara efisien. Aplikasi ini dibangun menggunakan framework **Laravel 12** dengan fokus pada keamanan, kemudahan penggunaan, dan manajemen konten yang terstruktur.
+
+Aplikasi ini memisahkan hak akses secara tegas antara pengelola (Admin/Penulis) dan pembaca umum:
+1.  **Area Manajemen (Secure Zone):** Area khusus yang dilindungi login untuk Super Admin dan Penulis mengelola konten.
+2.  **Area Publik (Public Zone):** Halaman depan yang dapat diakses oleh siapa saja untuk mencari dan membaca artikel yang telah diterbitkan.
 
 ## Fitur Utama
-- **Autentikasi:** Login & Register.
-- **Multi-Role:**
-  - **Super Admin:** Bisa mengelola (edit/hapus) semua artikel user lain & melihat info penulis.
-  - **Writer:** Hanya bisa mengelola artikel milik sendiri.
-- **CRUD Artikel:** Create, Read, Update, Delete dengan validasi.
-- **Rich Text Editor:** Menggunakan CKEditor 5 untuk penulisan konten.
-- **Image Upload:** Fitur upload gambar sampul artikel.
-- **Publish/Draft System:** Artikel bisa disimpan sebagai draft atau langsung diterbitkan.
 
-## Persyaratan Sistem
-- PHP >= 8.4
+### 1. Hak Akses (Multi-Role)
+- **Super Admin:** Memiliki kontrol penuh. Bisa mengedit/menghapus artikel milik siapa saja, melihat daftar penulis aktif, dan memantau seluruh konten.
+- **Penulis (Writer):** Memiliki dashboard pribadi. Hanya bisa membuat, mengedit, dan menghapus artikel miliknya sendiri.
+
+### 2. Manajemen Artikel (CRUD)
+- **Create:** Pembuatan artikel dengan judul, konten, dan upload gambar sampul (mimes:jpeg,png,jpg,gif,webp,svg).
+- **Rich Text Editor:** Integrasi **CKEditor 5** yang memungkinkan penulisan dengan format tebal, miring, list, dll.
+- **Publishing System:** Fitur *Toggle* untuk menyimpan artikel sebagai **Draft** (pribadi) atau **Publish** (tayang di publik).
+
+### 3. Halaman Publik (Pengunjung Umum)
+- **Katalog Artikel:** Menampilkan daftar artikel terbaru yang berstatus *Published*.
+- **Detail Artikel:** Tampilan baca yang nyaman, responsif, dan mendukung format teks kaya.
+- **Pagination:** Navigasi halaman untuk menelusuri arsip artikel lama.
+- **Tanpa Login:** Pengunjung tidak perlu mendaftar untuk sekadar membaca artikel.
+
+## Sistem
+- PHP >= 8.2 +
 - Composer
 - Database (MySQL/MariaDB)
 
-## Cara Instalasi
+
 ## Cara Instalasi
 
 1. **Clone Repository**
