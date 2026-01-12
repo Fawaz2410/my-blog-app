@@ -118,6 +118,7 @@ Buka `http://localhost:8000` di browser.
 ## Lisensi
 
 Project untuk Ujian Akhir Semester - Pemrograman Internet
+Pendidikan Teknologi Informasi
 Fakultas Keguruan dan Ilmu Pendidikan
 Universitas Muhammadiyah Tasikmalaya
 
