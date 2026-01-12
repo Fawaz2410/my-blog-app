@@ -13,6 +13,15 @@
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Tambahan style manual jika Tailwind Typography belum terinstall */
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; color: #1e293b; }
+        .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #334155; }
+        .prose blockquote { border-left: 4px solid #3b82f6; padding-left: 1rem; font-style: italic; color: #475569; }
+        .prose strong { color: #0f172a; font-weight: 700; }
+        .prose a { color: #2563eb; text-decoration: underline; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
@@ -59,25 +68,32 @@
 
             <div class="flex items-center justify-center gap-3">
                 <div class="w-12 h-12 rounded-full border-2 border-white shadow-md overflow-hidden bg-slate-200">
-                    @if($article->author->avatar)
+                    @if($article->author->avatar ?? false)
                         <img src="{{ asset('storage/' . $article->author->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
                     @else
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode($article->author->name) }}&background=E2E8F0&color=475569" class="w-full h-full object-cover" alt="Avatar">
+                        {{-- Saya tambahkan null coalescing operator ?? '' agar tidak error jika author dihapus --}}
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode($article->author->name ?? 'Admin') }}&background=E2E8F0&color=475569" class="w-full h-full object-cover" alt="Avatar">
                     @endif
                 </div>
                 <div class="text-left">
-                    <p class="text-sm font-bold text-slate-900">{{ $article->author->name }}</p>
+                    <p class="text-sm font-bold text-slate-900">{{ $article->author->name ?? 'Admin' }}</p>
                     <p class="text-xs text-slate-500">Penulis Blog</p>
                 </div>
             </div>
         </header>
 
         <div class="mb-12 rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/10 border border-slate-100">
-            <img src="https://picsum.photos/seed/{{ $article->id }}/1200/600" class="w-full h-auto object-cover" alt="Article Cover">
+            @if($article->image)
+                <img src="{{ asset('storage/' . $article->image) }}" class="w-full h-auto object-cover" alt="Article Cover">
+            @else
+                <img src="https://picsum.photos/seed/{{ $article->id }}/1200/600" class="w-full h-auto object-cover" alt="Article Cover">
+            @endif
         </div>
 
+        {{-- PERUBAHAN UTAMA DI SINI --}}
         <article class="prose prose-lg prose-slate mx-auto text-slate-600 leading-loose">
-            {!! nl2br(e($article->content)) !!}
+            {{-- Gunakan syntax ini untuk merender HTML dari CKEditor --}}
+            {!! $article->content !!}
         </article>
 
         <div class="mt-16 pt-8 border-t border-slate-200 flex justify-center">
@@ -92,7 +108,7 @@
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h2 class="text-2xl font-bold text-slate-900 mb-4">Info<span class="text-blue-600">Tekno</span>.</h2>
             <p class="text-slate-400 text-sm">
-                &copy; {{ date('Y') }} Dibuat dengan Laravel 11 & Tailwind CSS.
+                &copy; {{ date('Y') }} Dibuat dengan Laravel  & Tailwind CSS.
             </p>
         </div>
     </footer>

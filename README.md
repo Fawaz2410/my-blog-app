@@ -1,59 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Informasi Blog Mahasiswa
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- **Nama** : Fawaz Muhammad Sabiq
+- **NIM** : C2383207006
+- **Kelas** : PTI5A
+- **Matakuliah**: Pemrograman Internet
 
-## About Laravel
+## Deskripsi Aplikasi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Sistem Informasi Blog Mahasiswa** adalah sebuah platform Content Management System (CMS) modern yang dirancang untuk memfasilitasi publikasi artikel digital secara efisien. Aplikasi ini dibangun menggunakan framework **Laravel 12** dengan fokus pada keamanan, kemudahan penggunaan, dan manajemen konten yang terstruktur.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Aplikasi ini memisahkan hak akses secara tegas antara pengelola (Admin/Penulis) dan pembaca umum:
+1.  **Area Manajemen (Secure Zone):** Area khusus yang dilindungi login untuk Super Admin dan Penulis mengelola konten.
+2.  **Area Publik (Public Zone):** Halaman depan yang dapat diakses oleh siapa saja untuk mencari dan membaca artikel yang telah diterbitkan.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Fitur Utama
 
-## Learning Laravel
+### 1. Hak Akses (Multi-Role)
+- **Super Admin:** Memiliki kontrol penuh. Bisa mengedit/menghapus artikel milik siapa saja, melihat daftar penulis aktif, dan memantau seluruh konten.
+- **Penulis (Writer):** Memiliki dashboard pribadi. Hanya bisa membuat, mengedit, dan menghapus artikel miliknya sendiri.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 2. Manajemen Artikel (CRUD)
+- **Create:** Pembuatan artikel dengan judul, konten, dan upload gambar sampul (mimes:jpeg,png,jpg,gif,webp,svg).
+- **Rich Text Editor:** Integrasi **CKEditor 5** yang memungkinkan penulisan dengan format tebal, miring, list, dll.
+- **Publishing System:** Fitur *Toggle* untuk menyimpan artikel sebagai **Draft** (pribadi) atau **Publish** (tayang di publik).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3. Halaman Publik (Pengunjung Umum)
+- **Katalog Artikel:** Menampilkan daftar artikel terbaru yang berstatus *Published*.
+- **Detail Artikel:** Tampilan baca yang nyaman, responsif, dan mendukung format teks kaya.
+- **Pagination:** Navigasi halaman untuk menelusuri arsip artikel lama.
+- **Tanpa Login:** Pengunjung tidak perlu mendaftar untuk sekadar membaca artikel.
 
-## Laravel Sponsors
+## Sistem
+- PHP >= 8.2 +
+- Composer
+- Database (MySQL/MariaDB)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+## Cara Instalasi
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+1. **Clone Repository**
+   ```bash
+   GitHub https:https://github.com/Fawaz2410/my-blog-app
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. **Install Dependencies**
+```bash
+composer install
+npm install && npm run build
 
-## Code of Conduct
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+3. **Setup Environment**
+Salin file `.env.example` menjadi `.env`:
+```bash
+cp .env.example .env
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Sesuaikan konfigurasi `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` di file `.env` sesuai database lokal Anda.
+
+4. **Generate Key**
+```bash
+php artisan key:generate
+
+```
+
+
+5. **Migrasi Database & Seeding**
+Penting: Jalankan perintah ini untuk membuat tabel dan akun Super Admin otomatis.
+```bash
+php artisan migrate:fresh --seed
+
+```
+
+
+6. **Jalankan Aplikasi**
+```bash
+php artisan serve
+
+```
+
+
+Buka `http://localhost:8000` di browser.
+
+## Akun Demo
+
+**1. Super Admin**
+
+* Email: `admin@gmail.com`
+* Password: `password`
+
+**2. Penulis Biasa**
+
+* Email: `penulis@gmail.com`
+* Password: `password`
+
+## Versi Framework
+
+* Laravel Framework 12
+
+## Kontak
+
+- Fawaz Muhammad Sabiq
+- NIM: C2383207006
+- Email: [fawazmsabiq@gmail.com](mailto:fawazmsabiq@gmail.com)
+- GitHub: [github.com/Fawaz2410](https://github.com/Fawaz2410)
+
+## Lisensi
+
+Project untuk Ujian Akhir Semester - Pemrograman Internet
+Fakultas Keguruan dan Ilmu Pendidikan
+Universitas Muhammadiyah Tasikmalaya
+
+Copyright 2026 Fawaz Muhammad Sabiq

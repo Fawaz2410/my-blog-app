@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Informatika Insight</title>
+    <title>Teknologi Informasi - Blog Mahasiswa PTI</title>
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -17,6 +17,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
 
+    {{-- NAVBAR --}}
     <nav class="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
@@ -45,6 +46,7 @@
         </div>
     </nav>
 
+    {{-- HERO SECTION --}}
     <section class="relative pt-20 pb-32 overflow-hidden">
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full z-0 pointer-events-none">
             <div class="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl mix-blend-multiply animate-pulse"></div>
@@ -53,26 +55,27 @@
 
         <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
             <span class="inline-block py-1 px-3 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold tracking-wider uppercase mb-6">
-                Blog Mahasiswa &bull; UAS 2026
+                Blog Mahasiswa PTI &bull;  2026
             </span>
             <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight">
                 Jelajahi Wawasan <br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Tanpa Batas.</span>
             </h1>
             <p class="text-xl text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Temukan artikel terbaru seputar pemrograman, teknologi masa depan, dan catatan perjalanan mahasiswa informatika.
+                Temukan artikel terbaru seputar pemrograman dan teknologi masa depan.
             </p>
             <div class="flex justify-center gap-4">
                 <a href="#latest" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-full shadow-xl shadow-blue-600/20 hover:bg-blue-700 hover:shadow-blue-600/40 transition transform hover:-translate-y-1">
                     Mulai Membaca
                 </a>
-                <a href="https://github.com" target="_blank" class="px-8 py-4 bg-white text-slate-700 font-bold rounded-full border border-slate-200 hover:border-slate-400 hover:bg-slate-50 transition">
+                <a href="https://github.com/Fawaz2410" target="_blank" class="px-8 py-4 bg-white text-slate-700 font-bold rounded-full border border-slate-200 hover:border-slate-400 hover:bg-slate-50 transition">
                     Lihat Github
                 </a>
             </div>
         </div>
     </section>
 
+    {{-- LATEST ARTICLES --}}
     <section id="latest" class="py-20 bg-white border-t border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
@@ -88,8 +91,14 @@
                 @foreach($articles as $article)
                 <article class="group flex flex-col bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-300 transform hover:-translate-y-1 h-full">
                     
+                    {{-- IMAGE --}}
                     <div class="relative h-56 overflow-hidden">
-                        <img src="https://picsum.photos/seed/{{ $article->id }}/800/600" alt="Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        @if($article->image)
+                            <img src="{{ asset('storage/' . $article->image) }}" alt="Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        @else
+                            <img src="https://picsum.photos/seed/{{ $article->id }}/800/600" alt="Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        @endif
+
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
                         
                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm">
@@ -97,6 +106,7 @@
                         </div>
                     </div>
 
+                    {{-- CONTENT --}}
                     <div class="p-6 flex flex-col flex-1">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md uppercase tracking-wider">Article</span>
@@ -108,22 +118,24 @@
                             </a>
                         </h3>
                         
+                        {{-- PERBAIKAN PENTING DI SINI --}}
+                        {{-- Menggunakan strip_tags agar tag HTML CKEditor tidak bocor ke tampilan kartu --}}
                         <p class="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-1">
-                            {{ Str::limit($article->content, 110) }}
+                            {{ Str::limit(strip_tags($article->content), 110) }}
                         </p>
 
                         <div class="pt-5 border-t border-slate-100 flex items-center justify-between mt-auto">
                             <div class="flex items-center gap-3">
-                                
                                 <div class="w-8 h-8 rounded-full border-2 border-white shadow-sm overflow-hidden bg-slate-200">
-                                    @if($article->author->avatar)
+                                    {{-- Cek Avatar dengan null coalescing --}}
+                                    @if($article->author->avatar ?? false)
                                         <img src="{{ asset('storage/' . $article->author->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
                                     @else
-                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($article->author->name) }}&background=E2E8F0&color=475569" class="w-full h-full object-cover" alt="Avatar">
+                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($article->author->name ?? 'Admin') }}&background=E2E8F0&color=475569" class="w-full h-full object-cover" alt="Avatar">
                                     @endif
                                 </div>
                                 <div class="flex flex-col">
-                                    <span class="text-xs font-bold text-slate-700">{{ $article->author->name }}</span>
+                                    <span class="text-xs font-bold text-slate-700">{{ $article->author->name ?? 'Admin' }}</span>
                                     <span class="text-[10px] text-slate-400">Penulis</span>
                                 </div>
                             </div>
@@ -139,6 +151,15 @@
                 @endforeach
             </div>
 
+            {{-- PAGINATION --}}
+            {{-- Tambahkan ini jika controller kamu menggunakan ->paginate() --}}
+            @if($articles instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                <div class="mt-12">
+                    {{ $articles->links() }}
+                </div>
+            @endif
+
+            {{-- EMPTY STATE --}}
             @if($articles->isEmpty())
                 <div class="flex flex-col items-center justify-center py-24 bg-slate-50 rounded-3xl border border-dashed border-slate-300 text-center">
                     <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 text-slate-300">
@@ -154,6 +175,7 @@
         </div>
     </section>
 
+    {{-- FOOTER --}}
     <footer class="bg-white border-t border-slate-200 py-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h2 class="text-2xl font-bold text-slate-900 mb-4">Info<span class="text-blue-600">Tekno</span>.</h2>
@@ -163,7 +185,7 @@
                 <a href="#" class="hover:text-blue-600 transition">Kontak</a>
             </div>
             <p class="text-slate-400 text-sm">
-                &copy; {{ date('Y') }} Dibuat dengan Laravel 11 & Tailwind CSS.
+                &copy; {{ date('Y') }} Dibuat dengan Laravel  & Tailwind CSS.
             </p>
         </div>
     </footer>

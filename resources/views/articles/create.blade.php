@@ -1,4 +1,34 @@
 <x-app-layout>
+    {{-- Tambahkan Style Khusus untuk CKEditor agar serasi dengan Tailwind --}}
+    @push('styles')
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 400px;
+        }
+        /* Mengembalikan style list yang di-reset oleh Tailwind di dalam editor */
+        .ck-content ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .ck-content ol {
+            list-style-type: decimal;
+            padding-left: 20px;
+        }
+        .ck-content h2 {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .ck-content h3 {
+            font-size: 1.17em;
+            font-weight: bold;
+        }
+        .ck-content a {
+            color: #4f46e5;
+            text-decoration: underline;
+        }
+    </style>
+    @endpush
+
     <x-slot name="header">
         <div class="flex items-center text-sm font-medium text-gray-500">
             <a href="{{ route('dashboard') }}" class="hover:text-indigo-600 transition">Dashboard</a>
@@ -9,6 +39,28 @@
 
     <div class="py-12 font-sans">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+
+        @if ($errors->any())
+            <div class="mb-5 bg-red-50 border-l-4 border-red-500 p-4 shadow-sm rounded-r">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-bold text-red-800">
+                            Gagal menyimpan artikel:
+                        </h3>
+                        <ul class="mt-1 list-disc list-inside text-sm text-red-700">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        @endif
             
             <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data" class="bg-white shadow-xl sm:rounded-2xl overflow-hidden border border-gray-100">
                 @csrf
@@ -34,17 +86,20 @@
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Cover Image (Gambar Sampul)</label>
                         <div class="flex items-center justify-center w-full">
-                            <label for="image" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <label for="image" class="relative flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition overflow-hidden">
+                                
+                                <div id="upload-placeholder" class="flex flex-col items-center justify-center pt-5 pb-6">
                                     <svg class="w-8 h-8 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Klik untuk upload</span> gambar</p>
                                     <p class="text-xs text-gray-500">JPG, PNG, GIF (Max. 2MB)</p>
                                 </div>
-                                <input id="image" name="image" type="file" class="hidden" accept="image/*" />
+
+                                <img id="image-preview" src="#" alt="Preview" class="hidden w-full h-full object-cover absolute top-0 left-0">
+                                
+                                <input id="image" name="image" type="file" class="hidden" accept="image/*" onchange="previewImage(event)" />
                             </label>
                         </div>
                     </div>
-
                     <div>
                         <label for="published_at" class="block text-sm font-bold text-gray-700 mb-2">Tanggal Publikasi</label>
                         <input type="date" name="published_at" id="published_at" 
@@ -52,22 +107,12 @@
                         <p class="text-[10px] text-gray-400 mt-2">*Kosongkan jika ingin menyimpannya sebagai DRAFT.</p>
                     </div>
 
+                    {{-- BAGIAN CONTENT EDITOR --}}
                     <div>
                         <label for="content" class="block text-sm font-bold text-gray-700 mb-2">Isi Artikel</label>
-                        <div class="relative group">
-                            <div class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-b-0 border-gray-300 rounded-t-lg text-gray-500 text-sm">
-                                <span class="p-1 hover:bg-gray-200 rounded cursor-pointer font-bold">B</span>
-                                <span class="p-1 hover:bg-gray-200 rounded cursor-pointer italic">I</span>
-                                <span class="p-1 hover:bg-gray-200 rounded cursor-pointer underline">U</span>
-                                <div class="w-[1px] h-4 bg-gray-300 mx-1"></div>
-                                <span class="p-1 hover:bg-gray-200 rounded cursor-pointer">H1</span>
-                                <span class="p-1 hover:bg-gray-200 rounded cursor-pointer">H2</span>
-                                <span class="ml-auto text-[10px] text-gray-400">Markdown Supported</span>
-                            </div>
-                            
-                            <textarea name="content" id="content" rows="12" 
-                                class="w-full border-gray-300 rounded-b-lg focus:border-indigo-500 focus:ring focus:ring-indigo-200 transition shadow-sm font-mono text-sm leading-relaxed p-4" 
-                                placeholder="Mulai menulis cerita inspiratifmu di sini..." required></textarea>
+                        <div class="relative">
+                            {{-- Textarea ini akan digantikan oleh CKEditor --}}
+                            <textarea name="content" id="content" class="hidden"></textarea>
                         </div>
                     </div>
                 </div>
@@ -85,4 +130,43 @@
             </form>
         </div>
     </div>
+
+    {{-- SCRIPT AREA --}}
+    
+    {{-- 1. Load CKEditor CDN --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+
+    <script>
+        // 2. Fungsi Preview Image (Bawaan Anda)
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('image-preview');
+            const placeholder = document.getElementById('upload-placeholder');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 3. Inisialisasi CKEditor pada Textarea #content
+        ClassicEditor
+            .create(document.querySelector('#content'), {
+                toolbar: [ 
+                    'heading', '|', 
+                    'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 
+                    '|', 'undo', 'redo' 
+                ],
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 </x-app-layout>

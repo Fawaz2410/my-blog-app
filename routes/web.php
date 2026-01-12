@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\ProfileController; // <--- PENTING: Jangan lupa baris ini
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // 1. Halaman Depan (Publik)

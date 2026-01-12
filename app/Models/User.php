@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
+        'role', // <--- TAMBAHAN PENTING: Agar kolom role bisa diisi data
     ];
 
     /**
@@ -45,5 +46,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Cek apakah user adalah Super Admin
+     * Fungsi ini akan dipanggil di Controller atau Blade
+     */
+    public function isSuperAdmin()
+    {
+        return $this->role === 'super_admin';
     }
 }
