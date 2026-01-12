@@ -45,5 +45,8 @@ class DatabaseSeeder extends Seeder
         Article::factory(3)->create([
             'user_id' => $writer->id
         ]);
+        $this->call([
+            ArticleSeeder::class,
+        ]);
     }
 }
