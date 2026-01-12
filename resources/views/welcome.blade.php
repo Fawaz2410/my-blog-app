@@ -31,10 +31,26 @@
 
                 <div class="flex items-center gap-4">
                     @if (Route::has('login'))
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition">Dashboard</a>
-                            <div class="h-4 w-[1px] bg-slate-300"></div> <span class="text-sm font-bold text-slate-900">{{ Auth::user()->name }}</span>
-                        @else
+                                        @auth
+                                <a href="{{ url('/dashboard') }}" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition">Dashboard</a>
+                                
+                                {{-- Garis Pemisah --}}
+                                <div class="h-4 w-[1px] bg-slate-300"></div>
+
+                                {{-- Container Foto & Nama --}}
+                                <div class="flex items-center gap-2">
+                                    {{-- Logika Foto: Jika ada avatar di DB tampilkan, jika tidak pakai inisial --}}
+                                    <div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden border border-slate-300">
+                                        @if(Auth::user()->avatar)
+                                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                        @else
+                                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=0F172A&color=fff" alt="Avatar" class="w-full h-full object-cover">
+                                        @endif
+                                    </div>
+                                    
+                                    <span class="text-sm font-bold text-slate-900">{{ Auth::user()->name }}</span>
+                                </div>
+                            @else
                             <a href="{{ route('login') }}" class="text-sm font-semibold text-slate-600 hover:text-slate-900 px-4 py-2 hover:bg-slate-100 rounded-full transition">Masuk</a>
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}" class="text-sm font-bold bg-slate-900 text-white px-5 py-2.5 rounded-full hover:bg-slate-800 hover:shadow-lg transition transform hover:-translate-y-0.5">Daftar Sekarang</a>
