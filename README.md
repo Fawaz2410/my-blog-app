@@ -77,8 +77,13 @@ php artisan migrate:fresh --seed
 
 ```
 
-
 6. **Jalankan Aplikasi**
+Link Storage (Wajib untuk Gambar) Jalankan perintah ini agar folder penyimpanan gambar terhubung ke publik (supaya foto profil & artikel bisa tampil):
+```bash
+php artisan storage:link
+```
+
+7. **Jalankan Aplikasi**
 ```bash
 php artisan serve
 
